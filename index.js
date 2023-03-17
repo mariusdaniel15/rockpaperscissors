@@ -6,11 +6,11 @@ function getComputerChoice(){
 }
 
 function getUserChoice(){
-    const playerChoice = prompt("Write a choice:")
-    const choice = playerChoice.toLowerCase();
-    if((choice!= "rock") && (choice!="paper") && (choice!="scissors"))
-        alert("Choose between rock, paper or scissors!");
-    else return choice;
+    let choice;
+    do {
+        choice = prompt("Write a choice:").trim().toLowerCase();
+    } while (!options.includes(choice));
+    return choice;
 }
 
 function playRound(playerSelection, computerSelection){
@@ -53,40 +53,41 @@ function playRound(playerSelection, computerSelection){
 
 
 function game(){
-    let counterUser = 0;
-    let counterComputer = 0;
-    let counterTie = 0;
     let r=1;
+    let counter = [0,0,0];
     for(let i = 0; i <= 4; i++){
-        let result = playRound(getUserChoice(), getComputerChoice());
+        const userChoice = getUserChoice();
+        const compChoice = getComputerChoice();
+        const result = playRound(userChoice,compChoice);
         console.log("Round "+ r);
-        console.log("User choice " + playRound.getUserChoice);
-        console.log("Computer choice" + playRound.getComputerChoice);
+        console.log("User choice " + userChoice);
+        console.log("Computer choice " + compChoice);
         if(result == 1) {
             console.log("You won the round!");
-            ++counterUser;}
+            counter[0]+=1;
+        }
         else if (result == -1){
             console.log("You lost the round!");
-            ++counterComputer;
+            counter[2]+=1;
         } 
         else {
             console.log("It's a tied round!");
-            ++counterTie;
+            counter[1]+=1;
         }
+        console.log("Score: Player " + counter[0] + ", Ties " + counter[1] + ", Computer " + counter[2]);
         ++r;
-        //trebuie sa returnez un array cu trei pozitii si fiecare pozitie reprez una dintre counter user etc...
     }
+    return counter;
 }
 
-function showScore(){
+function showScore(counter){
     console.log("Result: ");
-    console.log(game.);
-    if((game.counterTie<=game.counterUser)  || (game.counterTie<=game.counterComputer)){
-        if(game.counterUser>counterComputer) {console.log("You won the game!");}
-        else {console.log("You lost the game!");}
-    }
+    if(counter[0]>counter[2]) {console.log("You won the game!");}
+    else if(counter[2]>counter[0]){console.log("You lost the game!");}
     else {console.log("It's a tied game!");}
     }
 
-game();
-showScore();
+const counter = game();
+showScore(counter);
+
+
